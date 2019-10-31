@@ -22,33 +22,22 @@ submit.on("click", function() {
   const shape = d3.select("#shape").property("value");
 
   const allInput = [date, city, state, country, shape]
-  const input = []
   
-  for (allInput) {
-    if (allInput != "") {
-      input.push(allInput)
-    };
-  };
-
-  console.log(input)
-
   // Get the value property of the input element
-  const filteredData = tableData.filter(day => 
-    day.datetime === date
-    && day.city === city
-    && day.state === state
-    && day.country === country
-    && day.shape === shape
-    );
+  const filteredData = tableData
+        .filter(obj =>{
+            return date === "" || obj.datetime === date;     //My first case checks if the input has been left empty. Return true so I get everything back.  
+        })                                                   //My OR let's me check for an explicit value set which will only occur on user entry.
+        .filter(obj =>{
+            return city === "" || obj.city === city; 
+        })
   
-  // console.log(filteredData);
-
   filteredData.forEach(ufo => {
     const row = tbody.append("tr");
     for (key in ufo){
         const cell = tbody.append("td");
         cell.text(ufo[key]);
     }; 
-});
+  });
 
 });
